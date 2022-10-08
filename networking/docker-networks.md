@@ -1,5 +1,5 @@
 <b>Docker Networks</b>
 1. You can create a docker network and attach that network to all containers which would be communicating with each other.
-2. If you try to attach a new network while using docker run the command would failed as docker does not create a new network on the go if it's not already present unlike docker volumes. Therefore you need to create the network first before attaching it to a container using the `docker network create` command.
+2. If you try to attach a new network while using docker run the command would fail as docker does not create a new network on the go if it's not already present unlike docker volumes. Therefore you need to create the network first before attaching it to a container using the `docker network create` command.
 3. You don't need to use the `ip address` of a container if you wish to communicate with it from another container. You can simply use that container's name in place of where the ip address would be in the connection string.
 4. How does the stuff described in pt.3 work? Whenever a request (mongodb, http, etc) is made it goes out of the container and is in the network where docker can see it. If docker can see the request, it can resolve the container name present in the request to the corresponding ip address if a container with that name is present in the network. 
