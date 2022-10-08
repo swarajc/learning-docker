@@ -1,0 +1,2 @@
+1. You can create a docker network and attach that network to all containers which would be communicating with each other
+2. If you try to attach a new network while using docker run the command would failed as docker does not create a new network on the go if it's not already present unlike docker volumes. Therefore you need to create the network first before attaching it to a container using the `docker network create` command.
