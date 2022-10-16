@@ -1,4 +1,4 @@
-1. To enter the nodejs shell - docker run -it node\
+1. To enter the nodejs shell - docker run -it node
 2. To run some command that would work in the node container -\
     a. If you don't want to enter an interactive mode - `docker run node ls`\
     b. If you want to enter an interactive mode where you have to continue giving input (like npm init) - `docker run -it node npm init` (with or without -y option)\
