@@ -1,0 +1,95 @@
+# containers are automatically removed when you run the command docker-compose down
+# to run containers in detached mode you just need to use the -d flag like this -> docker-compose up -d
+
+version: '3.8'
+services:
+  mongodb:
+    image: "mongo"
+    volumes:
+      - goalsDB:/data/db
+    
+    #You can also set the container name for a service like this if you don't want to use the defaut container name given by docker
+    #This won't affect the underlying code where the container names are used in connection requests as long as the service name matches with them
+    container_name: mongodb222
+
+    #Below are different ways in which you can use environment variables
+
+    # 1. Directly define them here
+
+    # environment:
+
+    #   # This is one way to define environment variables
+    #   # - MONGO_INITDB_ROOT_USERNAME=swaraj 
+      
+    #   # Below is another way to define environment variables
+    #   MONGO_INITDB_ROOT_USERNAME: swaraj
+    #   MONGO_INITDB_ROOT_PASSWORD: secret
+
+    # 2. Create a file and specify path as below
+    env_file:
+      #The path below is relative to this file
+      - ./env/mongo.env
+    
+    # You can either define all the networks you want the service to be a part of or you can skip this configuration as docker
+    # compose would automatically include all the services defined in this file as containers in one new network that it'll create on its own
+
+    #Below is example how to define networks for a service
+    # networks:
+    #   - goals-net
+
+      
+  backend:
+    #This is one way to build our image from the Dockerfile in the path we've specified as the value for the 'build' key
+    build: ./backend
+
+    #This is another way to build our image
+    # build:
+    #   # The context is the directory/path where all the files our docker image requires are present
+    #   context: './backend'
+
+    #   #The dockerfile key below is used to specify the name of the docker file if it is something other than Dockerfile (more info to come in later videos) 
+    #   dockerfile: Dockerfile
+    #   args:
+    #     - some-arg=1
+
+    ports:
+      - '80:80'
+    
+    volumes:
+      - logsDB:/app/logs
+      # Compared to specifying the absolute path when using the docker run command to use the bind mount, here we can just use a 
+      # relative path in lhs (of colon) below
+      - ./backend:/app 
+      - /app/node_modules
+
+    env_file:
+      - ./env/backend.env
+
+    # depends_on runs the dependencies defined under it before it runs this (for eg - backend) service
+    # You can add multiple dependencies below
+    depends_on:
+      # Below the name of the service which the backend service depends on is added
+      - mongodb 
+
+  frontend:
+    build: ./frontend
+    ports:
+    - '3000:3000'
+    volumes:
+      - ./frontend/src:/app/src
+    
+    # For specifying using the -it configuration in docker command here
+    # Open an input connect and a tty connect which is basically what the -it flag does in the docker run command
+
+    stdin_open: true
+    tty: true 
+
+    depends_on:
+      - backend
+
+
+volumes:
+  # If multiple services have the same named volume then that volume, folder on the local host machine will be shared
+  # Here you've to write the names of all the named volumes you have defined in all the services  use. You don't have to define bind mounts and anonymous volumes here
+  goalsDB:
+  logsDB:
