@@ -3,4 +3,4 @@
 2. Container to localhost machine communication\
   a. This can work by refering to the host machine url with `host.docker.internal`. For eg. If you want to communicate to a mongodb server on the host machine from	   inside the docker container you can use `host.docker.internal` to refer to the host machine inside url option of mongoClient.connect() .
 	
-3. Container to container communication\
+3. Container to container communication
