@@ -1,3 +1,5 @@
+<!-- For 2 and 3 bind mounts are not used as they don't work as intended on windows -->
+
 1) For running a mongo container
   - docker run --name mongodb --rm --network goals-net -v goalsDB:/data/db -e MONGO_INITDB_ROOT_USERNAME=swaraj -e MONGO_INITDB_ROOT_PASSWORD=secret mongo
 2) For running the backend node server container
