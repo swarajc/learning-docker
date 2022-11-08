@@ -1,3 +1,3 @@
 # learning-docker
 
-Respository for my dockerfiles, learnings, notes while I learn docker.
+Respository for my docker/docker-compose files, commands, notes made while learning Docker.
